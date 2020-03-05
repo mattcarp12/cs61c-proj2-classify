@@ -19,17 +19,103 @@
 read_matrix:
 
     # Prologue
-	
+	addi sp sp -24
+    sw ra 0(sp)
+    sw s0 4(sp)
+    sw s1 8(sp)
+    sw s2 12(sp)
+    sw s3 16(sp)
+    sw s4 20(sp)
+    
+    mv s0 a0
+    mv s1 a1
+    mv s2 a2
 
+    # Open the file
+    mv a1 s0
+    li a2 0
 
+    jal fopen
 
+    # error check
+    li t0 -1
+    beq a0 t0 eof_or_error
 
+    # store file pointer
+    mv s3 a0
 
+    # read num rows
+    mv a1 s3
+    mv a2 s1
+    li a3 4
 
+    jal fread
 
+    # error check
+    li t0 4
+    bne a0 t0 eof_or_error
 
+    # read num cols
+    mv a1 s3
+    mv a2 s2
+    li a3 4
+
+    jal fread
+
+    # error check
+    li t0 4
+    bne a0 t0 eof_or_error
+
+    # allocate memory for matrix
+    lw t0 0(s1) 
+    lw t1 0(s2)
+    mul t2 t0 t1
+    li t0 4
+    mul t2 t2 t0
+    mv a0 t2
+    jal malloc
+
+    # save matrix pointer
+    mv s4 a0
+
+    # read matrix from file
+    mv a1 s3
+    mv a2 s4
+    lw t0 0(s1) 
+    lw t1 0(s2)
+    mul t2 t0 t1
+    li t0 4
+    mul t2 t2 t0
+    mv a3 t2
+    jal fread
+
+    # error check
+    lw t0 0(s1) 
+    lw t1 0(s2)
+    mul t2 t0 t1
+    li t0 4
+    mul t2 t2 t0
+    bne a0 t2 eof_or_error
+
+    # close file
+    mv a1 s3
+    jal fclose
+
+    # error check
+    li t0 -1
+    beq a0 t0 eof_or_error
+
+    # set return value
+    mv a0 s4
+    
     # Epilogue
-
+    lw ra 0(sp)
+    lw s0 4(sp)
+    lw s1 8(sp)
+    lw s2 12(sp)
+    lw s3 16(sp)
+    lw s4 20(sp)
+    addi sp sp 24
 
     ret
 

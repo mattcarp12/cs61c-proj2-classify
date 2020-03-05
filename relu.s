@@ -10,26 +10,24 @@
 #	None
 # ==============================================================================
 relu:
-    # Prologue
-
+    add t0, a0, x0 # pointer to array
+    add t1, x0, x0 # counter
 
 loop_start:
-    
+    lw t2, 0(t0) # get integer from array
+    blt t2, x0, negate
+    j loop_continue
 
-
-
-
-
-
+negate:
+    sub t2, x0, t2
 
 loop_continue:
-
+    sw t2, 0(t0) # store integer back in array
+    addi t1, t1, 1 # increment counter
+    beq t1, a1, loop_end
+    addi t0, t0, 4
+    j loop_start
 
 
 loop_end:
-
-
-    # Epilogue
-
-    
 	ret
