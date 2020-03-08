@@ -15,11 +15,11 @@ relu:
 
 loop_start:
     lw t2, 0(t0) # get integer from array
-    blt t2, x0, negate
+    blt t2, x0, zero_out
     j loop_continue
 
-negate:
-    sub t2, x0, t2
+zero_out:
+    add t2, x0, x0
 
 loop_continue:
     sw t2, 0(t0) # store integer back in array

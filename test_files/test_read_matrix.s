@@ -2,7 +2,7 @@
 .import ../utils.s
 
 .data
-file_path: .asciiz "./test_input.bin"
+file_path: .asciiz "./test_files/test_input.bin"
 
 .text
 main:
@@ -16,7 +16,6 @@ main:
     mv a2 s2
 
     jal read_matrix
-
 
     # Print out elements of matrix
     lw a1 0(s1)

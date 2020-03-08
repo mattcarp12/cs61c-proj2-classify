@@ -1,4 +1,4 @@
-.import ../utils.s
+#.import utils.s
 
 .globl argmax
 

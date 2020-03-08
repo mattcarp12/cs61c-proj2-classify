@@ -33,7 +33,7 @@ read_matrix:
 
     # Open the file
     mv a1 s0
-    li a2 0
+    li a2 0 # read permission
 
     jal fopen
 
